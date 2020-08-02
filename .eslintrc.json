@@ -16,5 +16,8 @@
     "ecmaVersion": 2019,
     "sourceType": "module"
   },
-  "plugins": ["import", "svelte3"]
+  "plugins": ["import", "svelte3"],
+  "rules": {
+    "import/no-unresolved": ["error", {"ignore": ["^meteor/"]}]
+  }
 }

@@ -1,9 +1,9 @@
 <script>
-  import {Tasks} from '../imports/tasks.js';
+  import {Meteor} from 'meteor/meteor';
   export let task;
 
   function deleteTask() {
-    Tasks.remove(task._id);
+    Meteor.call('deleteTask', task._id);
   }
 
   const formatDate = date =>
@@ -13,13 +13,13 @@
       year: 'numeric'
     });
 
-  function toggleTask() {
-    Tasks.update(task._id, {$set: {done: !task.done}});
+  function toggleDone() {
+    Meteor.call('setDone', task._id, !task.done);
   }
 </script>
 
 <li>
-  <input type="checkbox" checked={task.done} on:click={toggleTask} />
+  <input type="checkbox" checked={task.done} on:click={toggleDone} />
   <span class:done={task.done}>
     {task.text} - added {formatDate(task.createdAt)}
   </span>

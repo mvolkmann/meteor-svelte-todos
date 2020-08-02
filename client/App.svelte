@@ -19,13 +19,8 @@
 
   $: remaining = $tasks.filter(t => !t.done).length;
 
-  function addTodo() {
-    Tasks.insert({
-      text,
-      createdAt: new Date(),
-      owner: Meteor.userId(),
-      username: $user.username
-    });
+  function addTask() {
+    Meteor.call('addTask', text);
     text = '';
   }
 </script>
@@ -40,7 +35,7 @@
   {#if $user}
     <p>{remaining} of {$tasks.length} remaining</p>
 
-    <form on:submit|preventDefault={addTodo}>
+    <form on:submit|preventDefault={addTask}>
       <input placeholder="todo text" bind:value={text} />
       <button>Add</button>
 
