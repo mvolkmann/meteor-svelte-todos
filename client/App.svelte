@@ -4,6 +4,7 @@
   import {BlazeTemplate} from 'meteor/svelte:blaze-integration';
   import {Tasks} from '../imports/tasks.js';
   import Task from './Task.svelte';
+  import {handleError} from './util';
 
   let hideCompleted = false;
   let text = '';
@@ -20,7 +21,7 @@
   $: remaining = $tasks.filter(t => !t.done).length;
 
   function addTask() {
-    Meteor.call('addTask', text);
+    Meteor.call('addTask', text, handleError);
     text = '';
   }
 </script>

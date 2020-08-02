@@ -1,9 +1,10 @@
 <script>
   import {Meteor} from 'meteor/meteor';
+  import {handleError} from './util';
   export let task;
 
   function deleteTask() {
-    Meteor.call('deleteTask', task._id);
+    Meteor.call('deleteTask', task._id, handleError);
   }
 
   const formatDate = date =>
@@ -14,7 +15,7 @@
     });
 
   function toggleDone() {
-    Meteor.call('setDone', task._id, !task.done);
+    Meteor.call('setDone', task._id, !task.done, handleError);
   }
 </script>
 

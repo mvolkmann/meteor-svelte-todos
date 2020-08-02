@@ -9,15 +9,16 @@ Meteor.methods({
     check(text, String);
 
     // Make sure the user is logged in before inserting a task.
-    if (!this.userId) throw new Meteor.Error('not-authorized');
+    if (!this.userId) throw new Meteor.Error('addTask', 'not-authorized');
 
     const {username} = Meteor.users.findOne(this.userId);
-    Tasks.insert({
+    const id = Tasks.insert({
       text,
       createdAt: new Date(),
       owner: this.userId,
       username
     });
+    return id;
   },
 
   deleteTask(taskId) {
