@@ -3,11 +3,13 @@
   import {Tasks} from '../imports/tasks.js';
   import Task from './Task.svelte';
 
-  let text;
+  let hideCompleted = false;
+  let text = '';
 
   const query = {};
   const projection = {sort: {createdAt: -1}};
   $: tasks = useTracker(() => Tasks.find(query, projection).fetch());
+  $: remaining = $tasks.filter(t => !t.done).length;
 
   function addTodo() {
     Tasks.insert({text, createdAt: new Date()});
@@ -17,17 +19,24 @@
 
 <div class="container">
   <header>
-    <h1>Todo List</h1>
+    <h1>Todo List ({remaining} of {$tasks.length} remaining)</h1>
   </header>
 
   <form on:submit|preventDefault={addTodo}>
     <input placeholder="todo text" bind:value={text} />
     <button>Add</button>
+
+    <label className="hide-completed">
+      <input type="checkbox" bind:checked={hideCompleted} />
+      Hide Completed Tasks
+    </label>
   </form>
 
   <ul>
     {#each $tasks as task}
-      <Task {task} />
+      {#if !hideCompleted || !task.done}
+        <Task {task} />
+      {/if}
     {/each}
   </ul>
 </div>
