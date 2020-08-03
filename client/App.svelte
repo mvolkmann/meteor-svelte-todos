@@ -48,38 +48,50 @@
     <h1>Todo App</h1>
   </header>
 
-  {#if $user && emailVerified}
-    <p>{remaining} of {$tasks.length} remaining</p>
+  <section>
+    {#if $user && emailVerified}
+      <p class="stats">{remaining} of {$tasks.length} remaining</p>
 
-    <form on:submit|preventDefault={addTask}>
-      <input placeholder="todo text" bind:value={text} />
-      <button>Add</button>
+      <form on:submit|preventDefault={addTask}>
+        <input placeholder="todo text" bind:value={text} />
+        <button>Add</button>
 
-      <label className="hide-completed">
-        <input type="checkbox" bind:checked={hideCompleted} />
-        Hide Completed Tasks
-      </label>
-    </form>
+        <label className="hide-completed">
+          <input type="checkbox" bind:checked={hideCompleted} />
+          Hide Completed Tasks
+        </label>
+      </form>
 
-    <ul>
-      {#each $tasks as task}
-        {#if !hideCompleted || !task.done}
-          <Task {task} />
-        {/if}
-      {/each}
-    </ul>
-  {:else if $user && !emailVerified}
-    <p>
-      You have been sent an email containing a link to verify your account.
-      Please click that link in order to start adding tasks.
-    </p>
-  {/if}
+      <ul>
+        {#each $tasks as task}
+          {#if !hideCompleted || !task.done}
+            <Task {task} />
+          {/if}
+        {/each}
+      </ul>
+    {:else if $user && !emailVerified}
+      <p>
+        You have been sent an email containing a link to verify your account.
+        Please click that link in order to start adding tasks.
+      </p>
+    {:else}
+      <p>Please sign in.</p>
+    {/if}
+  </section>
 </div>
 
 <style>
   form {
     margin-top: 0;
+    padding-bottom: 1rem;
+  }
+
+  section {
     padding: 1rem;
+  }
+
+  .stats {
+    margin-top: 0;
   }
 
   :global(#login-buttons) {
