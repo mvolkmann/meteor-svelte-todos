@@ -5,7 +5,7 @@
   import {onMount} from 'svelte';
   import {Tasks} from '../imports/tasks.js';
   import Task from './Task.svelte';
-  import {handleError} from './util';
+  import {call, handleError} from './util';
 
   let hideCompleted = false;
   let text = '';
@@ -23,9 +23,15 @@
 
   $: remaining = $tasks.filter(t => !t.done).length;
 
-  function addTask() {
-    Meteor.call('addTask', text, handleError);
-    text = '';
+  async function addTask() {
+    //Meteor.call('addTask', text, handleError);
+    try {
+      const id = await call('addTask', text);
+      console.log('App.svelte addTask: id of new task is', id);
+      text = '';
+    } catch (e) {
+      handleError(e);
+    }
   }
 </script>
 

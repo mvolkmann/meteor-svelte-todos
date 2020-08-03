@@ -1,10 +1,16 @@
 <script>
   import {Meteor} from 'meteor/meteor';
-  import {handleError} from './util';
+  import {call, handleError} from './util';
+
   export let task;
 
-  function deleteTask() {
-    Meteor.call('deleteTask', task._id, handleError);
+  async function deleteTask() {
+    //Meteor.call('deleteTask', task._id, handleError);
+    try {
+      await call('deleteTask', task._id);
+    } catch (e) {
+      handleError(e);
+    }
   }
 
   const formatDate = date =>
@@ -14,8 +20,13 @@
       year: 'numeric'
     });
 
-  function toggleDone() {
-    Meteor.call('setDone', task._id, !task.done, handleError);
+  async function toggleDone() {
+    //Meteor.call('setDone', task._id, !task.done, handleError);
+    try {
+      await call('setDone', task._id, !task.done);
+    } catch (e) {
+      handleError(e);
+    }
   }
 </script>
 
