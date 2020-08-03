@@ -15,11 +15,14 @@
 
   // user is a store
   $: user = useTracker(() => Meteor.user());
+  //$: user = Meteor.user();
+  $: emailVerified = $user && $user.emails[0].verified;
 
   const query = {};
   const projection = {sort: {createdAt: -1}};
   // tasks is a store
-  $: tasks = useTracker(() => Tasks.find(query, projection).fetch());
+  //$: tasks = useTracker(() => Tasks.find(query, projection).fetch());
+  $: tasks = Tasks.find(query, projection);
 
   $: remaining = $tasks.filter(t => !t.done).length;
 
@@ -29,6 +32,9 @@
       const id = await call('addTask', text);
       console.log('App.svelte addTask: id of new task is', id);
       text = '';
+
+      const sum = await call('sum', 2, 3);
+      console.log('App.svelte addTask: sum =', sum);
     } catch (e) {
       handleError(e);
     }
@@ -42,7 +48,7 @@
     <h1>Todo App</h1>
   </header>
 
-  {#if $user}
+  {#if $user && emailVerified}
     <p>{remaining} of {$tasks.length} remaining</p>
 
     <form on:submit|preventDefault={addTask}>
@@ -62,6 +68,11 @@
         {/if}
       {/each}
     </ul>
+  {:else if $user && !emailVerified}
+    <p>
+      You have been sent an email containing a link to verify your account.
+      Please click that link in order to start adding tasks.
+    </p>
   {/if}
 </div>
 

@@ -1,6 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import '../imports/tasks.js';
 import './accounts-setup.js';
+import './methods';
 import secrets from '../secrets.json';
 
 Meteor.startup(() => {
