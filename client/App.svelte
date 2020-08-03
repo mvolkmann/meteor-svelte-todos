@@ -2,6 +2,7 @@
   import {Meteor} from 'meteor/meteor';
   import {useTracker} from 'meteor/rdb:svelte-meteor-data';
   import {BlazeTemplate} from 'meteor/svelte:blaze-integration';
+  import {onMount} from 'svelte';
   import {Tasks} from '../imports/tasks.js';
   import Task from './Task.svelte';
   import {handleError} from './util';
@@ -9,6 +10,8 @@
   let hideCompleted = false;
   let text = '';
   let user;
+
+  onMount(() => Meteor.subscribe('tasks'));
 
   // user is a store
   $: user = useTracker(() => Meteor.user());
