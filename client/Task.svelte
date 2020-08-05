@@ -28,11 +28,9 @@
     }
   }
 
-  const {createdAt, text} = task;
-  const item = text + (createdAt ? ` - added ${formatDate(createdAt)}` : '');
-</script>
-
-<li>{item}</li>
+  // These are Svelte "reactive declarations".
+  $: ({createdAt, text} = task);
+  $: item = text + (createdAt ? ` - added ${formatDate(createdAt)}` : '');
 </script>
 
 <li>
