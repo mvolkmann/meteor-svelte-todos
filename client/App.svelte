@@ -5,7 +5,7 @@
   import {onMount} from 'svelte';
   import {Tasks} from '../imports/tasks.js';
   import Task from './Task.svelte';
-  import {call, handleError} from './util';
+  import {call, handleError} from './util.js';
 
   let hideCompleted = false;
   let text = '';

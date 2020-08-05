@@ -1,6 +1,5 @@
 <script>
-  import {Meteor} from 'meteor/meteor';
-  import {call, handleError} from './util';
+  import {call, handleError} from './util.js';
 
   export let task;
 
