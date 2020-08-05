@@ -15,13 +15,11 @@
 
   // user is a store
   $: user = useTracker(() => Meteor.user());
-  //$: user = Meteor.user();
   $: emailVerified = $user && $user.emails[0].verified;
 
   const query = {};
   const projection = {sort: {createdAt: -1}};
-  // tasks is a store
-  //$: tasks = useTracker(() => Tasks.find(query, projection).fetch());
+  // This is a MongoDB cursor which is also a Svelte store.
   $: tasks = Tasks.find(query, projection);
 
   $: remaining = $tasks.filter(t => !t.done).length;
