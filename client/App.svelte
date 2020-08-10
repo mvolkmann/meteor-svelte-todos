@@ -1,8 +1,11 @@
 <script>
   import {Meteor} from 'meteor/meteor';
+  import {Session} from 'meteor/session';
+  import {Tracker} from 'meteor/tracker';
   import {useTracker} from 'meteor/rdb:svelte-meteor-data';
   import {BlazeTemplate} from 'meteor/svelte:blaze-integration';
   import {onMount} from 'svelte';
+  import Counter from './Counter.svelte';
   import {Tasks} from '../imports/tasks.js';
   import Task from './Task.svelte';
   import {call, handleError} from './util.js';
@@ -11,7 +14,13 @@
   let text = '';
   let user;
 
-  onMount(() => Meteor.subscribe('tasks'));
+  onMount(() => Meteor.subscribe('tasks', true, 99, 'Gretzky'));
+
+  let counter;
+  Tracker.autorun(() => {
+    counter = Session.get('counter');
+  });
+  Session.setDefault('counter', 0);
 
   // user is a store
   $: user = useTracker(() => Meteor.user());
@@ -37,6 +46,10 @@
       handleError(e);
     }
   }
+
+  function increment() {
+    Session.set('counter', counter + 1);
+  }
 </script>
 
 <div class="container">
@@ -44,6 +57,9 @@
 
   <header>
     <h1>Todo App</h1>
+    {counter}
+    <button on:click={increment}>Increment</button>
+    <Counter />
   </header>
 
   <section>

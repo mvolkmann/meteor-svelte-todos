@@ -8,7 +8,10 @@ if (Meteor.isServer) {
   // This is only run on the server.
   // An arrow function cannot be used here
   // because we need to use the "this" keyword.
-  Meteor.publish('tasks', function () {
+  Meteor.publish('tasks', function (isGreat, number, name) {
+    console.log('tasks.js: isGreat =', isGreat);
+    console.log('tasks.js: number =', number);
+    console.log('tasks.js: name =', name);
     return Tasks.find({owner: this.userId});
   });
 }
