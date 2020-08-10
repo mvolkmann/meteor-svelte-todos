@@ -1,5 +1,6 @@
 <script>
   import {Meteor} from 'meteor/meteor';
+  import {ReactiveVar} from 'meteor/reactive-var';
   import {Session} from 'meteor/session';
   import {Tracker} from 'meteor/tracker';
   import {useTracker} from 'meteor/rdb:svelte-meteor-data';
@@ -22,6 +23,12 @@
     console.log('App.svelte autorun: Session.all() =', Session.all());
   });
   Session.setDefault('counter', 0);
+
+  const myRV = new ReactiveVar(0);
+  let counter2;
+  Tracker.autorun(() => {
+    counter2 = myRV.get();
+  });
 
   // user is a store
   $: user = useTracker(() => Meteor.user());
@@ -61,6 +68,8 @@
     {counter}
     <button on:click={increment}>Increment</button>
     <Counter />
+    counter2 = {counter2}
+    <button on:click={() => myRV.set(counter2 + 1)}>bump</button>
   </header>
 
   <section>
