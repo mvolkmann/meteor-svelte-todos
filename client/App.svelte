@@ -19,6 +19,7 @@
   let counter;
   Tracker.autorun(() => {
     counter = Session.get('counter');
+    console.log('App.svelte autorun: Session.all() =', Session.all());
   });
   Session.setDefault('counter', 0);
 

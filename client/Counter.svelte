@@ -16,4 +16,5 @@
 <div class="container">
   {counter}
   <button on:click={increment}>Increment</button>
+  <button on:click={() => Session.clear()}>Clear</button>
 </div>
