@@ -9,6 +9,9 @@ if (Meteor.isServer) {
   // An arrow function cannot be used here
   // because we need to use the "this" keyword.
   Meteor.publish('tasks', function (isGreat, number, name) {
+    check(isGreat, Boolean);
+    check(number, Number);
+    check(name, String);
     console.log('tasks.js: isGreat =', isGreat);
     console.log('tasks.js: number =', number);
     console.log('tasks.js: name =', name);

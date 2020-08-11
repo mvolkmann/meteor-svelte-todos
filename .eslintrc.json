@@ -5,7 +5,11 @@
     "jest": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "plugin:import/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "plugin:meteor/recommended"
+  ],
   "overrides": [
     {
       "files": ["**/*.svelte"],
@@ -18,6 +22,7 @@
   },
   "plugins": ["import", "svelte3"],
   "rules": {
-    "import/no-unresolved": ["error", {"ignore": ["^meteor/"]}]
+    "import/no-unresolved": ["error", {"ignore": ["^meteor/"]}],
+    "meteor/no-session": "off"
   }
 }

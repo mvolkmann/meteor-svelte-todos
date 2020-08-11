@@ -7,6 +7,9 @@
   import {BlazeTemplate} from 'meteor/svelte:blaze-integration';
   import {onMount} from 'svelte';
   import Counter from './Counter.svelte';
+  import {counterVar} from './reactive.js';
+  import ReactiveDemo from './ReactiveDemo.svelte';
+  import Receiver from './Receiver.svelte';
   import {Tasks} from '../imports/tasks.js';
   import Task from './Task.svelte';
   import {call, handleError} from './util.js';
@@ -70,6 +73,9 @@
     <Counter />
     counter2 = {counter2}
     <button on:click={() => myRV.set(counter2 + 1)}>bump</button>
+    <ReactiveDemo />
+    <ReactiveDemo />
+    <Receiver {counterVar} />
   </header>
 
   <section>
