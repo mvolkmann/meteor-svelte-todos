@@ -1,15 +1,10 @@
 <script>
   import {Meteor} from 'meteor/meteor';
-  import {ReactiveVar} from 'meteor/reactive-var';
   import {Session} from 'meteor/session';
   import {Tracker} from 'meteor/tracker';
   import {useTracker} from 'meteor/rdb:svelte-meteor-data';
   import {BlazeTemplate} from 'meteor/svelte:blaze-integration';
   import {onMount} from 'svelte';
-  import Counter from './Counter.svelte';
-  import {counterVar} from './reactive.js';
-  import ReactiveDemo from './ReactiveDemo.svelte';
-  import Receiver from './Receiver.svelte';
   import {Tasks} from '../imports/tasks.js';
   import Task from './Task.svelte';
   import {call, handleError} from './util.js';
@@ -18,19 +13,10 @@
   let text = '';
   let user;
 
-  onMount(() => Meteor.subscribe('tasks', true, 99, 'Gretzky'));
-
-  let counter;
-  Tracker.autorun(() => {
-    counter = Session.get('counter');
-    console.log('App.svelte autorun: Session.all() =', Session.all());
-  });
-  Session.setDefault('counter', 0);
-
-  const myRV = new ReactiveVar(0);
-  let counter2;
-  Tracker.autorun(() => {
-    counter2 = myRV.get();
+  onMount(() => {
+    Tracker.autorun(() => {
+      Meteor.subscribe('tasks', true, 99, 'Gretzky');
+    });
   });
 
   // user is a store
@@ -68,14 +54,6 @@
 
   <header>
     <h1>Todo App</h1>
-    {counter}
-    <button on:click={increment}>Increment</button>
-    <Counter />
-    counter2 = {counter2}
-    <button on:click={() => myRV.set(counter2 + 1)}>bump</button>
-    <ReactiveDemo />
-    <ReactiveDemo />
-    <Receiver {counterVar} />
   </header>
 
   <section>

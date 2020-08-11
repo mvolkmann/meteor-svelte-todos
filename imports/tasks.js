@@ -1,8 +1,17 @@
 import {check} from 'meteor/check';
 import {Mongo} from 'meteor/mongo';
 import {Meteor} from 'meteor/meteor';
+import SimpleSchema from 'simpl-schema';
 
 export const Tasks = new Mongo.Collection('tasks');
+Tasks.schema = new SimpleSchema({
+  createdAt: {type: Date, defaultValue: new Date()},
+  done: {type: Boolean, defaultValue: false, optional: true},
+  owner: {type: String},
+  text: {type: String},
+  username: {type: String, optional: true}
+});
+Tasks.attachSchema(Tasks.schema);
 
 if (Meteor.isServer) {
   // This is only run on the server.
@@ -27,12 +36,15 @@ Meteor.methods({
     if (!this.userId) throw new Meteor.Error('addTask', 'not-authorized');
 
     const {username} = Meteor.users.findOne(this.userId);
-    const id = Tasks.insert({
+    const newTask = {
       text,
       createdAt: new Date(),
       owner: this.userId,
       username
-    });
+    };
+    // This is not needed when attachSchema is used.
+    //Tasks.schema.validate(newTask);
+    const id = Tasks.insert(newTask);
     return id;
   },
 
