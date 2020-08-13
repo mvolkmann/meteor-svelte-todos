@@ -36,7 +36,7 @@
 <li>
   <input type="checkbox" checked={task.done} on:click={toggleDone} />
   <span class:done={task.done}>{item}</span>
-  <!-- Using Unicode trash can -->
+  <!-- using Unicode trash can -->
   <button on:click={deleteTask}>&#x1f5d1;</button>
 </li>
 
